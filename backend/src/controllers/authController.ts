@@ -6,7 +6,6 @@ interface RoleMapping {
   [key: string]: string;
 }
 
-
 export const signupPatient = async (req: Request, res: Response) => {
   try {
     const { name, dob, gender, address, phone, email } = req.body;
@@ -34,18 +33,36 @@ export const signupPatient = async (req: Request, res: Response) => {
   }
 };
 
-
 export const signupThroughAdmin = async (req: Request, res: Response) => {
-  try{
-    const{user, name, dob, email, password, phone, address, position, role} = req.body
-    if(!user || !Administrator.findOne(user.email) || user.role !== 'admin'){
-      return res.status(401).json({message: "Invalid Authenticaton",data: null, isLogin: false})
+  try {
+    const { user, name, dob, email, password, phone, address, position, role } =
+      req.body;
+    if (!user || !Administrator.findOne(user.email) || user.role !== "admin") {
+      return res
+        .status(401)
+        .json({ message: "Invalid Authenticaton", data: null, isLogin: false });
     }
-    const administratorDetails = Administrator.create({user, name, dob, email, password, phone, address, position, role})
-  }catch(err:any){
+    const administratorDetails = Administrator.create({
+      user,
+      name,
+      dob,
+      email,
+      password,
+      phone,
+      address,
+      position,
+      role,
+    });
+
+    res.status(200).json({
+      message: `Successfully created ${role}`,
+      data: administratorDetails,
+      isLogin: true,
+    });
+  } catch (err: any) {
     res.status(500).json({ message: "Server error", error: err.message });
   }
-}
+};
 
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -80,8 +97,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         assistant: "Assistant",
       };
 
-
-      const role = user &&roleMapping[user.role] || "Assistant";
+      const role = (user && roleMapping[user.role]) || "Assistant";
       res.status(200).json({
         message: `Successfully login as a ${role}`,
         isLogin: true,
