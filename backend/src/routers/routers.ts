@@ -1,10 +1,11 @@
 import { Router, Request, Response } from "express";
 import {
   login,
-  signupPatient,
-  signupThroughAdmin,
 } from "../controllers/authController";
+import { signupThroughAdmin } from "../controllers/authoratativeController";
+import {signupPatient, signupUser} from "../controllers/patientController"
 import Administrator from "../models/administratorModel";
+
 
 const router = Router();
 
@@ -16,7 +17,8 @@ router.get("/check-working", (req: Request, res: Response) => {
 });
 
 router.post("/login", login);
-router.post("/signup", signupPatient);
+router.post("/signup-user", signupUser);
+router.post("/signup-patient", signupPatient)
 router.post("/signupTAdmin", signupThroughAdmin);
 
 // router.post("/exception", async(req: Request, res: Response) => {
