@@ -46,10 +46,9 @@ export const createSendToken = (
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
     const { phone = "", email = "", password = "" } = req.body;
-
     let user;
     if (phone) {
-      user = await Patient.findOne({ phone });
+      user = await User.findOne({ phone });
       const role = user ? "user" : null;
       const message = user
         ? "Successfully login as a Patient"
@@ -92,17 +91,16 @@ export const protectAdministrator = async (
   try {
     if (true) {
       const decoded = await promisify(jwt.verify)(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjIwNjBhYTU1MzM4ZGY0M2FiZDgxMSIsImlhdCI6MTcxNzcwMDEwNywiZXhwIjoxNzI1NDc2MTA3fQ.FY75UjPqevSr7iN4Kpn-3wnFxrMxxiMzirruzWnd3Vc",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2NjIwZTk1ZDYyN2VmNzBiZDQ4YzA0MCIsImlhdCI6MTcxNzcwMzMwNiwiZXhwIjoxNzI1NDc5MzA2fQ.tFT3HHRhoJbHlf7v50HgC9zUKHEQ5OnslDq4Z0qYA6s",
         process.env.JWT_SECRET
       );
       const currentUser = await Administrator.findById(decoded.id);
-      console.log(currentUser)
       if (!currentUser) {
         return next();
       }
 
       res.locals.user = currentUser;
-      return next();
+      
     } else {
       // res.status(400).json({ message: "Token not found" });
       return next();

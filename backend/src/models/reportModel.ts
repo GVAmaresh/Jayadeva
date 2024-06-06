@@ -13,6 +13,10 @@ const reportDetails = new mongoose.Schema({
       type: String,
       required: true,
     },
+    patientId:{
+      type: String,
+      required: true,
+    },
     assistanceId:{
       type: String,
       required: true,

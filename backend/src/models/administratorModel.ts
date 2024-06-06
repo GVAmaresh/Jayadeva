@@ -26,15 +26,15 @@ interface Administrator extends Document {
   ) => Promise<boolean>;
 }
 
-const patientDetailsSchema: Schema<PatientDetails> = new Schema({
-  patientName: {
-    type: String,
-    required: true,
-  },
-  patientId: { type: String, required: true },
-  reportId: { type: String, required: true },
-  userId: { type: String, required: true },
-});
+// const patientDetailsSchema: Schema<PatientDetails> = new Schema({
+//   patientName: {
+//     type: String,
+//     required: true,
+//   },
+//   patientId: { type: String, required: true },
+//   reportId: { type: String, required: true },
+//   userId: { type: String, required: true },
+// });
 
 const administratorDetailsSchema: Schema<Administrator> = new Schema({
   name: {
@@ -71,10 +71,6 @@ const administratorDetailsSchema: Schema<Administrator> = new Schema({
     type: String,
     required: true,
     default: "assistant",
-  },
-  recordedBy: {
-    type: [patientDetailsSchema],
-    required: false,
   },
   date: {
     type: Date,
