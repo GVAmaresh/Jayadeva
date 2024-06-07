@@ -135,3 +135,38 @@ export const addReport = async (
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };
+
+export const editReport = async(req:Request, res:Response, next:NextFunction) => {
+  await protectAdministrator(req ,res, next)
+  const currentUser = res.locals.user;
+  if (!currentUser) {
+    return res.status(401).json({
+      message: "Invalid Authentication",
+      data: null,
+      isLogin: false,
+    });
+  }
+  if(currentUser.role!== "assistant"){
+    return res.status(401).json({
+        message: "Invalid Authentication",
+        data: null,
+        isLogin: false,
+    });
+  }
+  const { reportId, diagnosis, treatment } = req.body;
+  const reportDetails = await Report.findById(reportId);
+  if(!reportDetails){
+    return res.status(404).json({
+      message: "Report not found",
+      status: 404,
+    });
+  }
+  reportDetails.diagnosis = diagnosis;
+  reportDetails.treatment = treatment;
+  await reportDetails.save();
+  res.status(200).json({
+    message: "Report updated successfully",
+    status: 200,
+    data: reportDetails,
+  });
+}

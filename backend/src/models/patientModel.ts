@@ -1,26 +1,38 @@
 const mongoose = require("mongoose");
-
-const patientDetails = new mongoose.Schema({
-    name:{
-        type: String,
-        required: true,
+import { Document, Schema } from "mongoose";
+import { ReportInterface } from "./reportModel";
+export interface PatientInterface extends Document{
+  name: string;
+  dob: Date;
+  gender: string;
+  reports:ReportInterface[]
+}
+const patientDetails:Schema<PatientInterface> = new mongoose.Schema({
+  name: {
+    type: String,
+  },
+  dob: {
+    type: Date,
+  },
+  gender: {
+    type: String,
+  },
+  reports: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "Report",
+      required: false,
     },
-    dob: {
-        type: Date,
-        required: true 
-      },
-      gender:{
-        type: String,
-        required: true
-      },
-    reports:[{
-        type: mongoose.Schema.ObjectId,
-        ref: "Report",
-        required: false
-    }]
-})
+  ],
+});
 
-const Patient = mongoose.model('Patient', patientDetails);
-  
+patientDetails.virtual<PatientInterface>("user", {
+  ref:"User",
+  localField:"_id",
+  foreignField:"user"
+});
+
+const Patient = mongoose.model("Patient", patientDetails);
+
 module.exports = Patient;
 export default mongoose;

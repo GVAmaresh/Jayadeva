@@ -1,5 +1,15 @@
+import { Document } from "mongoose";
+
 const mongoose = require("mongoose");
 
+export interface ReportInterface extends Document{
+  diagnosis: string;
+  treatments: string
+  doctorId: string;
+  patientId: string;
+  assistanceId: string;
+  visitDate: Date;
+}
 const reportDetails = new mongoose.Schema({
     diagnosis: {
       type: String,

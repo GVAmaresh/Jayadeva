@@ -1,25 +1,38 @@
+import { NextFunction } from "express";
+import { PatientInterface } from "./patientModel";
+import { Document, Schema } from "mongoose";
 const mongoose = require("mongoose");
+interface UserInterface extends Document{
+  name: string;
+  dob:Date;
+  gender:string;
+  address:string;
+  phone:number;
+  email:string;
+  role:string;
+  patients: PatientInterface[]
+}
 
-const userDetails = new mongoose.Schema({
+const userDetails:Schema<UserInterface> = new mongoose.Schema({
     name: {
       type: String,
-      required: true,
+      
     },
     dob: {
       type: Date,
-      required: true,
+      
     },
     gender: {
       type: String,
-      required: true,
+      
     },
     address: {
       type: String,
-      required: true,
+      
     },
     phone: {
       type: Number,
-      required: true,
+      
       unique: true,
     },
     email: {
@@ -35,9 +48,15 @@ const userDetails = new mongoose.Schema({
       ref:"Patient",
       required: false,
     }],
+  },
+  {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
   });
   
   const User = mongoose.model('User', userDetails);
+  // userDetails.pre<UserInterface>
+  
   
   module.exports = User;
   export default mongoose;

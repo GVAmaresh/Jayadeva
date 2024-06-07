@@ -2,7 +2,7 @@ import { Router, Request, Response } from "express";
 import {
   login,
 } from "../controllers/authController";
-import { addReport, signupAdminPatient} from "../controllers/authoratativeController";
+import { addReport, signupAdminPatient} from "../controllers/authoritativeController";
 import {signupPatient, signupUser} from "../controllers/patientController"
 import Administrator from "../models/administratorModel";
 
