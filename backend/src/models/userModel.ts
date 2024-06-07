@@ -43,11 +43,12 @@ const userDetails:Schema<UserInterface> = new mongoose.Schema({
       type: String,
       default: "user"
     },
+    
     patients: [{
-      type: mongoose.Schema.ObjectId,
-      ref:"Patient",
-      required: false,
-    }],
+        type: mongoose.Schema.ObjectId,
+        ref: 'Patient',
+    }
+    ],
   },
   {
     toJSON: { virtuals: true },
@@ -55,7 +56,13 @@ const userDetails:Schema<UserInterface> = new mongoose.Schema({
   });
   
   const User = mongoose.model('User', userDetails);
-  // userDetails.pre<UserInterface>
+  userDetails.pre<UserInterface>(/^find/, function(next){
+    this.populate({
+      path:"patients",
+      // select:"name"
+    })
+  })
+  
   
   
   module.exports = User;

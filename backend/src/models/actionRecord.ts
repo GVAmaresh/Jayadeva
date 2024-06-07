@@ -7,6 +7,15 @@ const actionRecords = new mongoose.Schema({
     required: true,
   },
   patientId: { type: mongoose.Schema.ObjectId, ref: "Patient", required: true },
-  userId: { type: mongoose.Schema.ObjectId, ref: "User", required: true },
+  role: { type: String, required: true },
+  operation: { type: String, required: true },
+  userId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Administration",
+    required: true,
+  },
   visitDate: { type: Date, default: new Date() },
 });
+
+const ActionRecords = mongoose.model("ActionRecords", actionRecords);
+export default ActionRecords;

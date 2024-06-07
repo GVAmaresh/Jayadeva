@@ -24,12 +24,15 @@ const patientDetails:Schema<PatientInterface> = new mongoose.Schema({
       required: false,
     },
   ],
+},{
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
-patientDetails.virtual<PatientInterface>("user", {
+patientDetails.virtual<PatientInterface>("patients", {
   ref:"User",
   localField:"_id",
-  foreignField:"user"
+  foreignField:"patients"
 });
 
 const Patient = mongoose.model("Patient", patientDetails);
