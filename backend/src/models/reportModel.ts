@@ -20,15 +20,18 @@ const reportDetails = new mongoose.Schema({
       required: true,
     },
     doctorId:{
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref:"Administration",
       required: true,
     },
     patientId:{
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref:"Patient",
       required: true,
     },
     assistanceId:{
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      ref:"Administration",
       required: true,
     },
     visitDate: {
